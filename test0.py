@@ -3,6 +3,7 @@
 import argparse
 import subprocess
 from math import log2 
+import os
 import time  
 
 DEFAULT_NUM_TESTS = 100
@@ -16,6 +17,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     seed_arg, num_tests_arg = args.seed, args.num_tests
+
+    if not os.path.exists("task0.py"):
+        print(f'ERROR\n\
+            \tAre you in the right folder?')
+        exit()
 
     outputs = []
     errors = []
