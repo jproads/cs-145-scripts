@@ -54,8 +54,8 @@ if __name__ == '__main__':
                 \tSent: {sent_str}\n\
                 \tReceived: {received_str}')
             test_errors += 1
-        else:
-            total_bits += bits
+            
+        total_bits += bits
         
         if t >= 10:
             time_errors += 1
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         exit()
 
     # Compute score
-    avg = total_bits / (len(outputs) - test_errors)
+    avg = total_bits / len(outputs)
     x = log2(total_bits)
     if time_errors >= 3:
         score = 0
