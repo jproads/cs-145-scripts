@@ -20,7 +20,7 @@ if __name__ == '__main__':
     outputs = []
     errors = []
     times = []
-    # Loop through seeds from 0 to 99
+    # Loop through seeds from 0 to num_tests_arg
     for i in range(num_tests_arg):
         # Construct the command with the current seed
         command = f"python3 -m cs145lib.task1.make_sentence --seed {i + seed_arg} | \
