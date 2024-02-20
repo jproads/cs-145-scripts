@@ -1,20 +1,36 @@
 # Must be placed in same folder as task1.py and cs145lib
 
+import argparse
 import subprocess
 from math import log2 
+import os
 import time  
 
-SEED = int(0xC0DEBABE)
+DEFAULT_NUM_TESTS = 100
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog="test0.py", description="Tests your Programming Task 1 (PT 1) solution.")
+
+    parser.add_argument("-s", "--seed", default=int(0xC0DEBABE), help="Random seed for test program (integer; default: decimal equivalent of 0xC0DEBABE).", type=int)
+    parser.add_argument("-n", "--num-tests", default=100, help="Number of tests to run (integer; default: 100).", type=int)
+
+    args = parser.parse_args()
+
+    seed_arg, num_tests_arg = args.seed, args.num_tests
+
+    if not os.path.exists("task1.py"):
+        print(f'ERROR\n\
+            \tAre you in the right folder?')
+        exit()
+
     outputs = []
     errors = []
     times = []
-    # Loop through seeds from 0 to 99
-    for i in range(100):
+    # Loop through seeds from 0 to num_tests_arg
+    for i in range(num_tests_arg):
         # Construct the command with the current seed
-        command = f"python3 -m cs145lib.task1.make_sentence --seed {i + SEED} | \
-                python3 -m cs145lib.task1.test --seed {i + SEED} \
+        command = f"python3 -m cs145lib.task1.make_sentence --seed {i + seed_arg} | \
+                python3 -m cs145lib.task1.test --seed {i + seed_arg} \
                 python3 task1.py"
         
         # Time the process
@@ -48,7 +64,7 @@ if __name__ == '__main__':
         received_str = " ".join(received_msg)
         sent_str = " ".join(sent_msg)
         if received_msg != sent_msg or t >= 10:
-            print(f'ERROR FOR SEED {i + SEED}:\n\
+            print(f'ERROR FOR SEED {i + seed_arg}:\n\
                 \tBits: {bits}\n\
                 \tTime: {t} s\n\
                 \tSent: {sent_str}\n\
@@ -62,7 +78,7 @@ if __name__ == '__main__':
     
     # Display results
     print(f'TESTS\n\
-            \tSeed: {SEED}\n\
+            \tSeed: {seed_arg}\n\
             \tTests performed: {len(outputs)}\n\
             \tTests timed out: {time_errors}\n\
             \tFailed tests: {test_errors}')
@@ -73,7 +89,7 @@ if __name__ == '__main__':
 
     # Compute score
     avg = total_bits / len(outputs)
-    x = log2(total_bits)
+    x = log2(total_bits if num_tests_arg == DEFAULT_NUM_TESTS else avg * DEFAULT_NUM_TESTS)
     if time_errors >= 3:
         score = 0
     elif x > 21.99:
@@ -83,13 +99,21 @@ if __name__ == '__main__':
     else:
         score = 214 - 7 * x
 
-    score -= test_errors * 1.5
+    # 1% of test cases failed = -1.5
+    score -= (test_errors / (num_tests_arg * 0.01)) * 1.5
 
     if score < 0:
         score = 0
 
     print(f'PERFORMANCE\n\
-            \tTotal: {total_bits}\n\
-            \tAverage: {avg}\n\
+            \tTotal bits: {total_bits}\n\
+            \tAverage bits per message: {avg}\n\
             \tX: {x}\n\
             \tScore: {score}')
+
+    if num_tests_arg != 100:
+        print(f'NOTE\n\
+            \tNumber of tests is not 100.\n\
+            \tScore here might not accurately reflect correctness of solution:\n\
+            \t- Average bits per message was used to determine X.\n\
+            \t- Penalties were scaled according to number of tests ran.')
