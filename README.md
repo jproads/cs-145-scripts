@@ -16,4 +16,8 @@ The **number of tests** ran and **random seed** for each test program may be cus
 ## Extra
 Contributions are welcome! Raise an issue or a PR and I'll get to it ASAP.
 
+## Contributors
+jproads
+daryll-ko
+
 *Released with permission from Sir Kevin Atienza.*
