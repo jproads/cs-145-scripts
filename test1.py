@@ -64,7 +64,7 @@ if __name__ == '__main__':
         received_str = " ".join(received_msg)
         sent_str = " ".join(sent_msg)
         if received_msg != sent_msg or t >= 10:
-            print(f'ERROR FOR seed_arg {i + seed_arg}:\n\
+            print(f'ERROR FOR SEED {i + seed_arg}:\n\
                 \tBits: {bits}\n\
                 \tTime: {t} s\n\
                 \tSent: {sent_str}\n\
@@ -99,7 +99,8 @@ if __name__ == '__main__':
     else:
         score = 214 - 7 * x
 
-    score -= test_errors * 1.5
+    # 1% of test cases failed = -1.5
+    score -= (test_errors / (num_tests_arg * 0.01)) * 1.5
 
     if score < 0:
         score = 0
@@ -113,4 +114,6 @@ if __name__ == '__main__':
     if num_tests_arg != 100:
         print(f'NOTE\n\
             \tNumber of tests is not 100.\n\
-            \tAverage bits per message was used to determine X and Score.')
+            \tScore here might not accurately reflect correctness of solution:\n\
+            \t- Average bits per message was used to determine X.\n\
+            \t- Penalties were scaled according to number of tests ran.')
