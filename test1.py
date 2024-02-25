@@ -4,9 +4,13 @@ import argparse
 import subprocess
 from math import log2 
 import os
+import re
 import time  
 
 DEFAULT_NUM_TESTS = 100
+BITS_REGEX = "Exactly (\d+) bits were written by the sender\."
+SENT_REGEX = "\[Sender stderr\] The data to be sent is \'(.*)\'"
+RECEIVED_REGEX = "The string returned by the receiver is \'(.*)\'"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog="test0.py", description="Tests your Programming Task 1 (PT 1) solution.")
@@ -54,16 +58,12 @@ if __name__ == '__main__':
     test_errors = 0
     time_errors = 0
     for i, (output, error, t) in enumerate(zip(outputs, errors, times)):
-        output_list = output.split()
-        bits = int(output_list[1])
-        received_msg = output_list[15:]
+        bits = int(re.search(BITS_REGEX, output).group(1))
 
         # Parse error
-        sent_msg = error.split()[8:]
-
-        received_str = " ".join(received_msg)
-        sent_str = " ".join(sent_msg)
-        if received_msg != sent_msg or t >= 10:
+        received_str = re.search(RECEIVED_REGEX, output).group(1)
+        sent_str = re.search(SENT_REGEX, error).group(1)
+        if received_str != sent_str or t >= 10:
             print(f'ERROR FOR SEED {i + seed_arg}:\n\
                 \tBits: {bits}\n\
                 \tTime: {t} s\n\
