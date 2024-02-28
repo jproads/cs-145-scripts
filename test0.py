@@ -8,9 +8,9 @@ import re
 import time  
 
 DEFAULT_NUM_TESTS = 100
-BITS_REGEX = "Exactly (\d+) bits were written by the sender\."
-SENT_REGEX = "\[Sender stderr\] The data to be sent is \'(.*)\'"
-RECEIVED_REGEX = "The string returned by the receiver is \'(.*)\'"
+BITS_REGEX = r"Exactly (\d+) bits were written by the sender\."
+SENT_REGEX = r"\[Sender stderr\] The data to be sent is \'(.*)\'"
+RECEIVED_REGEX = r"The string returned by the receiver is \'(.*)\'"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog="test0.py", description="Tests your Programming Task 0 (PT 0) solution.")
