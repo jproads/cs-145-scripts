@@ -59,10 +59,33 @@ if __name__ == '__main__':
     time_errors = 0
     for i, (output, error, t) in enumerate(zip(outputs, errors, times)):
         bits = int(re.search(BITS_REGEX, output).group(1))
+        total_bits += bits
 
         # Parse error
-        received_str = re.search(RECEIVED_REGEX, output).group(1)
-        sent_str = re.search(SENT_REGEX, error).group(1)
+        try:
+            received_str = re.search(RECEIVED_REGEX, output).group(1)
+        except AttributeError:
+            print(f'ERROR FOR SEED {i + seed_arg}:\n\
+                \tBits: {bits}\n\
+                \tTime: {t} s\n\
+                \tNo string returned by the receiver.\n\
+                \tReceived output:\n{output}\n\
+                \tReceived error:\n{error}')
+            test_errors += 1
+            continue
+
+        try:
+            sent_str = re.search(SENT_REGEX, error).group(1)
+        except AttributeError:
+            print(f'ERROR FOR SEED {i + seed_arg}:\n\
+                \tBits: {bits}\n\
+                \tTime: {t} s\n\
+                \tNo string sent by the sender.\n\
+                \tReceived output:\n{output}\n\
+                \tReceived error:\n{error}')
+            test_errors += 1
+            continue
+
         if received_str != sent_str or t >= 10:
             print(f'ERROR FOR SEED {i + seed_arg}:\n\
                 \tBits: {bits}\n\
@@ -70,8 +93,6 @@ if __name__ == '__main__':
                 \tSent: {sent_str}\n\
                 \tReceived: {received_str}')
             test_errors += 1
-            
-        total_bits += bits
         
         if t >= 10:
             time_errors += 1
