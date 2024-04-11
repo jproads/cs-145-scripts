@@ -2,6 +2,8 @@
 
 Scripts for testing CS 145 2324B Programming Tasks. 
 
+**IMPORTANT: test2.py requires Python 3.12.2 to run.**
+
 ## What is it
 <img width="431" alt="Screenshot 2024-02-19 at 2 15 40 PM" src="https://github.com/jproads/cs-145-scripts/assets/93178783/f9f6c2b5-5523-4248-a84f-520284c3a37b">
 
@@ -14,6 +16,7 @@ The **number of tests** ran and **random seed** for each test program may be cus
    - For PT2, download `test2.py` and `judgetool.pyc` and place in your `task2attachments` folder.
 3. **Important:** In your terminal, navigate to `task[n]attachments/` and run `python3 test[n].py -h` to see the available options for running the script.
    - To check if your PT2 solution is valid, run a single test via `python test2.py -n 1`. Running the full 50 tests can take a while, and is recommended only for checking your score.
+   
 ## Extra
 Contributions are welcome! Raise an issue or a PR and I'll get to it ASAP.
 
