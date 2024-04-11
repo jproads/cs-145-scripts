@@ -38,9 +38,10 @@ if __name__ == "__main__":
         )
         exit()
 
-    print(f"Running {num_tests_arg} tests...")
+    print()
+    print(f"    Running {num_tests_arg} test{'' if num_tests_arg == 1 else 's'}...")
     if num_tests_arg > 5:
-        print("This may take a while...")
+        print("    This may take a while...")
 
     outputs = []
     errors = []
@@ -82,7 +83,7 @@ if __name__ == "__main__":
     failures = 0
     timeouts = 0
 
-    for result, t in zip(results, times):
+    for i, (result, t) in enumerate(zip(results, times)):
         if t > 20:
             timeouts += 1
         else:
@@ -90,13 +91,22 @@ if __name__ == "__main__":
                 case Pass(f, b):
                     frames_used += f
                     bytes_used += b
-                case Fail(_):
+                case Fail(logs):
+                    print(f"\n    Error logs for test #{i+1}:")
+                    for log in logs:
+                        print(f"        {log}")
                     failures += 1
 
     ave_time = round(sum(times) / len(times), 3)
     ave_frames_used = frames_used / num_tests_arg
     ave_bytes_used = bytes_used / num_tests_arg
-    x = math.log2(5 * ave_frames_used + ave_bytes_used)
+
+    bad_news = "All tests failed..."
+
+    if 5 * ave_frames_used + ave_bytes_used < 10**-6: # zero
+        x = bad_news
+    else:
+        x = math.log2(5 * ave_frames_used + ave_bytes_used)
 
     print(
         f"""
@@ -111,25 +121,26 @@ if __name__ == "__main__":
     Timeouts\t\t\t{timeouts}"""
     )
 
-    if x > 16.6:
-        score = 0
-    elif x >= 15.5:
-        score = 60 - (10 / 1.1) * (x - 15.5)
-    elif x >= 14.6:
-        score = 70 - (10 / 0.9) * (x - 14.6)
-    elif x >= 14:
-        score = 80 - (10 / 0.6) * (x - 14)
-    elif x >= 13.55:
-        score = 90 - (10 / 0.45) * (x - 13.55)
-    elif x >= 13.41:
-        score = 98 - (8 / 0.14) * (x - 13.41)
-    else:
-        score = 100
+    if x != bad_news:
+        if x > 16.6:
+            score = 0
+        elif x >= 15.5:
+            score = 60 - (10 / 1.1) * (x - 15.5)
+        elif x >= 14.6:
+            score = 70 - (10 / 0.9) * (x - 14.6)
+        elif x >= 14:
+            score = 80 - (10 / 0.6) * (x - 14)
+        elif x >= 13.55:
+            score = 90 - (10 / 0.45) * (x - 13.55)
+        elif x >= 13.41:
+            score = 98 - (8 / 0.14) * (x - 13.41)
+        else:
+            score = 100
 
-    score -= 25 * failures
-    score = max(0, score)
+        score -= 25 * failures
+        score = max(0, score)
 
-    if timeouts >= 3:
+    if x == bad_news or timeouts >= 3:
         score = 0
 
     print(
