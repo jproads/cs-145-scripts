@@ -2,8 +2,6 @@
 
 Scripts for testing CS 145 2324B Programming Tasks. 
 
-**IMPORTANT: test2.py requires Python 3.12.2 to run.**
-
 ## PT 3 usage instructions
 
 First things first: you need at least **Python 3.12** to run this.
@@ -34,6 +32,8 @@ Good luck! We can make it through this sem! `^_^`
 
 <details>
 <summary><h2>PT 0-2 usage instructions (archived)</h2></summary>
+
+**IMPORTANT: test2.py requires Python 3.12.2 to run.**
 
 ### What is it
 <img width="431" alt="Screenshot 2024-02-19 at 2 15 40 PM" src="https://github.com/jproads/cs-145-scripts/assets/93178783/f9f6c2b5-5523-4248-a84f-520284c3a37b">
