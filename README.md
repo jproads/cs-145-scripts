@@ -7,7 +7,7 @@ Scripts for testing CS 145 2324B Programming Tasks.
 First things first: you need at least **Python 3.12** to run this.
 
 1) Download the files inside the `test3` folder and place them in your `task3attachments` folder.
-2) Install the Python `tabular` package by running `pip install -r requirements.txt` or `pip install tabular`.
+2) Install the Python `tabulate` package by running `pip install -r requirements.txt` or `pip install tabulate`.
 3) Make sure you're currently inside the `task3attachments` folder. To test your solution, run `python3 test3.py`. The output will look like this:
 
 <img alt="test3 output" src="./assets/test3_output.png">
