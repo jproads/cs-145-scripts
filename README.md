@@ -13,8 +13,8 @@ You need at least **Python 3.12** to run this.
 
 The PT 5 tester carries out two things:
 
-- It first creates 30 test files using `cs145lib.task5.gen`. A test file takes around 2-3 seconds to make, so this is done separately so that future runs of the tester (**using the same seed**) do not need to repeat this step.
-- It then runs your solution on each of those test files until it reaches the time limit (which you may set using the `-tl` flag) or it encounters a failed test case.
+- It first creates 30 test files using `cs145lib.task5.gen`. A test file takes around 2-3 seconds to make; this step is done separately so that future runs of the tester (**using the same seed**) do not need to repeat this step.
+- It then runs your solution on each of those test files until it reaches the time limit or it encounters a failed test case.
 
 You may customize the following things:
 
