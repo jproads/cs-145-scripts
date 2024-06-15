@@ -22,6 +22,11 @@ You may customize the following things:
 - The time limit, via the `-tl` flag; the `elapsed` field in the resulting `output.json` file is consulted for keeping track of the total elapsed time.
 - The file to test, via the `-f` flag.
 
+If one of your tests fails, you may get an error about port unavailability when running `cs145lib.task5.test`. One possible fix for this as follows:
+
+- Find the offending process ID via `lsof -n -i | grep ":{port_number}"`.
+- Kill the process via `kill -9 {process_ID}`.
+
 <details>
 <summary><h2>PT 3 usage instructions (archived)</h2></summary>
 
